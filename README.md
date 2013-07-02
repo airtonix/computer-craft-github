@@ -26,7 +26,7 @@ python programmers.
 Packages are assumed to follow the format of :
 
     /package-name
-        manifest.json
+	    manifest.json
         main.lua
         /lib
             something.lua
@@ -45,7 +45,6 @@ This file describes the gist url, the package name, the version
     username: airtonix
     reponame: my-package
     release_branch: master
-    alias: my-package
     init: main.lua
 
 A toc file can have the following options
@@ -59,12 +58,34 @@ your github username. used to contruct part of the url
 * *repo* [string]
 name of the repo, used construct the url and the name of the command alias.
 
+* *release_branch* [string]
+name of the branch that your package is released from. good practice is to use `master`
+
 * *init* [filename]
-The lua file which the alias will point at, if not present the alias will point at 
-`/gists/package-name/main.lua`
+The lua file which the alias will point at, if not present the alias will point at
+`/usr/local/package-name/main.lua`
 
 
 The example above will cause `github install airtonix/my-package` to :
 * download the packge to `/tmp/github/my-package`
 * move `/tmp/github/my-package` to `/usr/local/my-package/`
 * create an alias `/my-package` pointing at `/usr/local/my-package/main.lua`
+
+
+## Updating
+
+	github update package-name
+
+
+## Todo
+
+proposed commands
+
+I intend to allow the `github` tool to use the following:
+
+* install
+	fetch repo and setup command alias
+* update
+	runs install again, fetching from latest version, overwriting any files
+* remove
+	removes package and alias
