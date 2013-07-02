@@ -39,15 +39,25 @@ The only file that is mandatory is manifest.json.
 
 ### package.toc
 
-This file describes the gist url, the package name, the version
+This JSON file describes some information about the package.
 
-    name: My Package
-    username: airtonix
-    reponame: my-package
-    release_branch: master
-    init: main.lua
 
-A toc file can have the following options
+The following example manifest will cause `github install airtonix/my-package` to :
+* download the packge to `/tmp/github/my-package`
+* move `/tmp/github/my-package` to `/usr/local/my-package/`
+* create an alias `/my-package` pointing at `/usr/local/my-package/main.lua`
+
+	{
+		"name": "My Package",
+		"username": "airtonix",
+		"reponame": "my-package",
+		"branch": "master",
+		"commands": [
+				{ "doSomething" : "main.lua" },
+			],
+	}
+
+#### Supported Values
 
 * *name* [string]
 An human readable package label/name, used when displaying packages in lists
@@ -58,28 +68,32 @@ your github username. used to contruct part of the url
 * *repo* [string]
 name of the repo, used construct the url and the name of the command alias.
 
-* *release_branch* [string]
+* *branch* [string]
 name of the branch that your package is released from. good practice is to use `master`
 
-* *init* [filename]
-The lua file which the alias will point at, if not present the alias will point at
-`/usr/local/package-name/main.lua`
+* *commands* [list of dicts]
+Describes command aliases to create.
+The key will become the name of the command alias, and the value is what lua file in the package it points at.
 
-
-The example above will cause `github install airtonix/my-package` to :
-* download the packge to `/tmp/github/my-package`
-* move `/tmp/github/my-package` to `/usr/local/my-package/`
-* create an alias `/my-package` pointing at `/usr/local/my-package/main.lua`
 
 
 ## Updating
 
 	github update package-name
 
+## Removing
+
+	github remove package-name
+
+## List installed
+
+	github list
+
+
 
 ## Todo
 
-proposed commands
+### proposed commands
 
 I intend to allow the `github` tool to use the following:
 
@@ -89,3 +103,25 @@ I intend to allow the `github` tool to use the following:
 	runs install again, fetching from latest version, overwriting any files
 * remove
 	removes package and alias
+* list
+	list installed and managed packages
+
+
+### Dependancy Management
+
+Although something that might be beyond my reach, I can see that this would be great.
+
+	{
+		"name": "My Package",
+		"username": "airtonix",
+		"reponame": "my-package",
+		"branch": "master",
+		"commands": [
+				{ "doSomething" : "main.lua" },
+			],
+		"requires": [
+			"fred/supporting-modules",
+			"jane/nice-colours",
+		]
+
+	}
