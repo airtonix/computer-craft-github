@@ -12,7 +12,7 @@ computercraft with something more sane.
 ## Intro
 
 This is my first experiement in creating a distribution and pacaging program for computercraft 
-that interacts with gist.github.com.
+that interacts with github.com.
 
 The idea is to utilise the awesomeness of git and github so that `github install airtonix/cross-mining` 
 will install the latest version of that package.
@@ -25,14 +25,15 @@ python programmers.
 
 Packages are assumed to follow the format of :
 
-    /package-name
-	    manifest.json
-        main.lua
-        /lib
-            something.lua
-    README
-    LICENSE
-
+```
+/package-name
+    manifest.json
+    main.lua
+    /lib
+        something.lua
+README
+LICENSE
+```
 
 The only file that is mandatory is manifest.json.
 
@@ -47,15 +48,17 @@ The following example manifest will cause `github install airtonix/my-package` t
 * move `/tmp/github/my-package` to `/usr/local/my-package/`
 * create an alias `/my-package` pointing at `/usr/local/my-package/main.lua`
 
-	{
-		"name": "My Package",
-		"username": "airtonix",
-		"reponame": "my-package",
-		"branch": "master",
-		"commands": [
-				{ "doSomething" : "main.lua" },
-			],
-	}
+```
+{
+    "name": "My Package",
+    "username": "airtonix",
+    "reponame": "my-package",
+    "branch": "master",
+    "commands": [
+            { "doSomething" : "main.lua" },
+        ]
+}
+```
 
 
 #### Supported Values
@@ -112,17 +115,19 @@ I intend to allow the `github` tool to use the following:
 
 Although something that might be beyond my reach, I can see that this would be great.
 
-	{
-		"name": "My Package",
-		"username": "airtonix",
-		"reponame": "my-package",
-		"branch": "master",
-		"commands": [
-				{ "doSomething" : "main.lua" },
-			],
-		"requires": [
-			"fred/supporting-modules",
-			"jane/nice-colours",
-		]
+```
+{
+	"name": "My Package",
+	"username": "airtonix",
+	"reponame": "my-package",
+	"branch": "master",
+	"commands": [
+			{ "doSomething" : "main.lua" },
+		],
+	"requires": [
+		"fred/supporting-modules",
+		"jane/nice-colours",
+	]
 
-	}
+}
+```
