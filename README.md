@@ -57,6 +57,7 @@ The following example manifest will cause `github install airtonix/my-package` t
 			],
 	}
 
+
 #### Supported Values
 
 * *name* [string]
