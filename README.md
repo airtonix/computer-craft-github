@@ -1,71 +1,69 @@
 # ComputerCraft Github Client
 
-	copyright 2013 Zenobius Jiricek
-	MIT three clause license
+copyright 2013 Zenobius Jiricek
+MIT three clause license
 
-	Basic github client for computer craft, this seeks to supplant the pastebin functionality in computercraft
-	with something more sane.
+Basic github client for computer craft, this seeks to supplant the pastebin functionality in 
+computercraft with something more sane.
 
 
 
 ## Intro
 
-	`gist` is my first experiement in creating a distribution and
-	update program for computercraft that interacts with gist.github.com
+This is my first experiement in creating a distribution and pacaging program for computercraft 
+that interacts with gist.github.com.
+
+The idea is to utilise the awesomeness of git and github so that `github install airtonix/cross-mining` 
+will install the latest version of that package.
+
+My approach to this is fairly opinionated, being influenced by the pip utility used and loved by 
+python programmers.
+
 
 ## Packages
 
-	Since gist.github allows you to store multiple files, gist will save 
-	them on the turtle as a package.
+Packages are assumed to follow the format of :
 
-	Packages are assumed to follow the format of :
+    /package-name
+        manifest.json
+        main.lua
+        /lib
+            something.lua
+    README
+    LICENSE
 
-	{{{
-	    /
-	        /gists
-	            /package-name
-	                package.toc
-	                main.lua
-	                /lib
-	                    something.lua
-	}}}
 
-	The only file that is mandatory is package.toc, and of course if you
-	want anything useful an initial lua file to run.
+The only file that is mandatory is manifest.json.
 
 
 ### package.toc
 
-	This file describes the gist url, the package name, the version
+This file describes the gist url, the package name, the version
 
-	{{{
-	    name: My Package
-	    url: http://gist.github.com/username/23jh342
-	    alias: my-package
-	    init: main.lua
-	}}}
+    name: My Package
+    username: airtonix
+    reponame: my-package
+    release_branch: master
+    alias: my-package
+    init: main.lua
 
-	A toc file can have the following options
+A toc file can have the following options
 
-	*name* [string]
-	An human readable package label/name, used when displaying packages in lists
+* *name* [string]
+An human readable package label/name, used when displaying packages in lists
 
-	*url* [url]
-	Specifies the repo for this package. This is used for updating or installing a 
-	particular version of the gist.
+* *username* [string]
+your github username. used to contruct part of the url
 
-	*alias* [slug]
-	The symlink to create, which will be what the user interacts with when using the package
-	The example above will cause `gist get 23jh342` to :
-	    - download the packge to `/tmp/gists/23jh342/`
-	    - move `/tmp/gists/23jh342/` to `/gists/my-package/`
-	    - create an alias `/my-package` pointing at `/gists/my-package/main.lua`
+* *repo* [string]
+name of the repo, used construct the url and the name of the command alias.
 
-	*version* [integer]
-	if present will cause the package to be pinned to this revision, otherwise
-	`gist update package-name|all` will make sure this package is at the lastest
-	revision.
+* *init* [filename]
+The lua file which the alias will point at, if not present the alias will point at 
+`/gists/package-name/main.lua`
 
-	*init* [filename]
-	The lua file which the alias will point at, if not present the alias will point at 
-	`/gists/package-name/main.lua`
+
+The example above will cause `github install airtonix/my-package` to :
+* download the packge to `/tmp/github/my-package`
+* move `/tmp/github/my-package` to `/usr/local/my-package/`
+* create an alias `/my-package` pointing at `/usr/local/my-package/main.lua`
