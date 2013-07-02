@@ -12,7 +12,7 @@ computercraft with something more sane.
 ## Intro
 
 This is my first experiement in creating a distribution and pacaging program for computercraft 
-that interacts with gist.github.com.
+that interacts with github.com.
 
 The idea is to utilise the awesomeness of git and github so that `github install airtonix/cross-mining` 
 will install the latest version of that package.
