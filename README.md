@@ -1,133 +1,58 @@
-# ComputerCraft Github Client
+# Hatch
+_A ComputerCraft Package Manager_
 
 copyright 2013 Zenobius Jiricek
 
 MIT three clause license
 
-Basic github client for computer craft, this seeks to supplant the pastebin functionality in 
-computercraft with something more sane.
-
-
+Basic package manager for computer craft, seeks to mimic the absolute
+basics of aptitude for linux.
 
 ## Intro
 
-This is my first experiement in creating a distribution and pacaging program for computercraft 
-that interacts with github.com.
+This is my first experiement in creating a distribution and packaging 
+program for ... well anything really.
 
-The idea is to utilise the awesomeness of git and github so that `github install airtonix/cross-mining` 
-will install the latest version of that package.
+My initial idea was to utilise the awesomeness of git and github so 
+that `hatch install cross-mining` will install the latest version of 
+that package. Currenty `hatch` will work with any http server that 
+serves files without requiring authentication.
 
-My approach to this is fairly opinionated, being influenced by the pip utility used and loved by 
-python programmers.
+My approach to this is fairly opinionated, being influenced by the 
+linux package mananger `apt-get`.
+
+Hatch works with a local package index, a local sources.list of remote 
+repos and expects the remote repo to maintain a package index.
 
 
 ## Packages
 
-Packages are assumed to follow the format of :
+At the moment, I have a very simple view on how computer-craft applications 
+should be packaged.
+
+Basically one directory per application, with some metadata about the 
+application describing the name, purpose, author, contributor, homepage, 
+license, dependancies as package names.
+
+
+I've yet to decide how to store the metadata, perhaps it'll be a simple 
+`manifest.lua` containing a table in the root of the application directory.
+
+
+## Commands
+
+For now, Hatch supports a very simple set of commands.
 
 ```
-/package-name
-    manifest.json
-    main.lua
-    /lib
-        something.lua
-README
-LICENSE
+> hatch
 ```
-
-The only file that is mandatory is manifest.json.
-
-
-### package.toc
-
-This JSON file describes some information about the package.
-
-
-The following example manifest will cause `github install airtonix/my-package` to :
-* download the packge to `/tmp/github/my-package`
-* move `/tmp/github/my-package` to `/usr/local/my-package/`
-* create an alias `/my-package` pointing at `/usr/local/my-package/main.lua`
-
+or
 ```
-{
-    "name": "My Package",
-    "username": "airtonix",
-    "reponame": "my-package",
-    "branch": "master",
-    "commands": [
-            { "doSomething" : "main.lua" },
-        ]
-}
-```
-
-
-#### Supported Values
-
-* *name* [string]
-An human readable package label/name, used when displaying packages in lists
-
-* *username* [string]
-your github username. used to contruct part of the url
-
-* *repo* [string]
-name of the repo, used construct the url and the name of the command alias.
-
-* *branch* [string]
-name of the branch that your package is released from. good practice is to use `master`
-
-* *commands* [list of dicts]
-Describes command aliases to create.
-The key will become the name of the command alias, and the value is what lua file in the package it points at.
-
-
-
-## Updating
-
-	github update package-name
-
-## Removing
-
-	github remove package-name
-
-## List installed
-
-	github list
-
-
-
-## Todo
-
-### proposed commands
-
-I intend to allow the `github` tool to use the following:
-
-* install
-	fetch repo and setup command alias
-* update
-	runs install again, fetching from latest version, overwriting any files
-* remove
-	removes package and alias
-* list
-	list installed and managed packages
-
-
-### Dependancy Management
-
-Although something that might be beyond my reach, I can see that this would be great.
-
-```
-{
-	"name": "My Package",
-	"username": "airtonix",
-	"reponame": "my-package",
-	"branch": "master",
-	"commands": [
-			{ "doSomething" : "main.lua" },
-		],
-	"requires": [
-		"fred/supporting-modules",
-		"jane/nice-colours",
-	]
-
-}
+> hatch help
+Hatch x.x.x
+  help     : This list.
+  update   : Update package index.
+  install  : Install package(s).
+  upgrade  : Upgrade all packages.
+  remove   : remove package(s).
 ```
